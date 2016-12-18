@@ -37,6 +37,13 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //TODO: add recyclerView which shows information about contest in short view
+        //TODO: after pressing on a contest start a new activity with full information about the contest
+        //TODO: add buttons to open the contest in browser. If it hasn't been started, show remaining time to start
+        //TODO: if it has been started, show remaining time, remember about time zones
+        //TODO: add progress bar while downloading is in process
+        //TODO: information about Contest class int Contest.java :)
+        //TODO: implement news showing, but I want to eliminate it
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);

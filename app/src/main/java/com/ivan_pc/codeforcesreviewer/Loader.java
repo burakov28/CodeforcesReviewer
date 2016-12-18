@@ -16,6 +16,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+// It's loader, all messages sends from RunnableTask which execute downloading in WorkingThread
+
 public class Loader extends Service {
 
     protected static final String GYM_URL = "http://codeforces.com/api/contest.list?gym=true";
@@ -44,13 +46,13 @@ public class Loader extends Service {
                 rt = new RunnableTask(true, true, pendingIntent, Loader.this);
                 th = new Thread(rt);
                 th.run();
-                //downloadTasks(true, pendingIntent);
+
                 break;
             case MainActivity.COMPETITIONS_CODE:
                 rt = new RunnableTask(true, false, pendingIntent, Loader.this);
                 th = new Thread(rt);
                 th.start();
-                //downloadTasks(false, pendingIntent);
+
                 break;
             case MainActivity.NEWS_CODE:
                 //TODO: downloadNews(pendingIntent);

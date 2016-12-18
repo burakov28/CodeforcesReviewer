@@ -11,17 +11,20 @@ import android.support.annotation.Nullable;
 
 public class Contest implements Parcelable {
 
+    // Nullable means that show this field isn't necessary
 
+    // Identificator of contest, is necessary to build a link for browser to open this contest
     final int id;
 
     @NonNull
     final String name;
 
     @NonNull
-    //System of judging
+    //System of judging may be : CF, IOI, ICPC
     final String type;
 
     @NonNull
+    //Phase of contest may be : BEFORE, CODING, PENDING_SYSTEM_TEST, SYSTEM_TEST, FINISHED
     final String phase;
 
     //in seconds
@@ -31,13 +34,15 @@ public class Contest implements Parcelable {
     final long startTime;
 
     //can be missed (equals to -1) or negative
+    //describe how many seconds passed after starting
     final long relativeTime;
 
     @Nullable
-    //Handle
+    //Author's handle
     final String preparedBy;
 
     @Nullable
+    //website of contest
     final String websiteURL;
 
     @Nullable
@@ -47,9 +52,11 @@ public class Contest implements Parcelable {
     final int difficulty;
 
     @Nullable
+    //kind of contest may be : Офиц. ACM-ICPC соревнование, Официальное школьное соревнование, Этап открытого кубка, Чемпионат школы/университета/города/области, Соревнование со сборов, Офиц. международное инд. соревнование, Тренировочное соревнование.
     final String kind;
 
     @Nullable
+    //Region if it is ICPC
     final String icpcRegion;
 
     @Nullable

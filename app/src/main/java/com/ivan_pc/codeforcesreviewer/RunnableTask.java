@@ -18,6 +18,8 @@ import java.util.ArrayList;
  * Created by Ivan-PC on 19.12.2016.
  */
 
+// it downloads JSONString
+
 public class RunnableTask implements Runnable {
     private static final String LOG_TAG = RunnableTask.class.getSimpleName();
     HttpURLConnection connection;
@@ -80,7 +82,7 @@ public class RunnableTask implements Runnable {
                 jsonString = getJSONString(Loader.COMPETITION_URL);
             }
         } catch (IOException e) {
-            // TODO: we don't have the Internet!
+            // TODO: send message that we don't have the Internet!
             return;
         }
         Log.d(LOG_TAG, jsonString);
@@ -90,7 +92,7 @@ public class RunnableTask implements Runnable {
         } catch (MyException e) {
             // TODO: sending message that Server isn't response
         } catch (JSONException e) {
-            // TODO: sending message problems with parsing
+            // TODO: we have problems with parsing
         }
         Intent intent = new Intent().putExtra(MainActivity.ANSWER, contests);
         try {
