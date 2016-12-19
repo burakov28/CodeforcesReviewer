@@ -24,11 +24,10 @@ public class RunnableTask implements Runnable {
     private static final String LOG_TAG = RunnableTask.class.getSimpleName();
     HttpURLConnection connection;
     PendingIntent pendingIntent;
-    private final boolean isContest, isGym;
+    private final boolean isGym;
     Loader loader;
 
-    RunnableTask (boolean isContest, boolean isGym, PendingIntent pendingIntent, Loader loader) {
-        this.isContest = isContest;
+    RunnableTask (boolean isGym, PendingIntent pendingIntent, Loader loader) {
         this.isGym = isGym;
         this.pendingIntent = pendingIntent;
         this.loader = loader;
@@ -105,8 +104,6 @@ public class RunnableTask implements Runnable {
 
     @Override
     public void run() {
-        if (isContest) {
-            downloadTasks(isGym, pendingIntent);
-        }
+        downloadTasks(isGym, pendingIntent);
     }
 }

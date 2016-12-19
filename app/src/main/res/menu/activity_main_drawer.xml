@@ -1,39 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_news"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="News" />
+    <group android:checkableBehavior="single"
+        android:id="@+id/contest_type">
+
         <item
             android:id="@+id/nav_competitions"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Competitions" />
+            android:icon="@drawable/ic_competitions"
+            android:title="@string/competition" />
         <item
             android:id="@+id/nav_gym"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Gym" />
+            android:icon="@drawable/ic_gym"
+            android:title="@string/gym" />
 
     </group>
 
-    <item
-        android:id="@+id/nav_manage"
-        android:icon="@drawable/ic_menu_manage"
-        android:title="Tools" />
 
-    <!--
-    <item android:title="Communicate">
+    <item android:title="@string/language">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+            android:id="@+id/russian"
+            android:icon="@drawable/ru"
+            android:title="@string/RU" />
+        <item
+            android:id="@+id/english"
+            android:icon="@drawable/uk"
+            android:title="@string/EN"/>
         </menu>
     </item>
-    -->
+
 </menu>

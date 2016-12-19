@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Codeforces контесты</string>
+    <string name="gym">Тренировки</string>
+    <string name="competition">Соревнования</string>
+    <string name="language">Языки</string>
+    <string name="welcome">Добро пожаловать в приложение Codeforces контесты</string>
+</resources>
