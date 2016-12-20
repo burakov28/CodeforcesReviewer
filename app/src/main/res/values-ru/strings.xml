@@ -9,4 +9,15 @@
     <string name="connection_lost">Потеряно соединение с сетью</string>
     <string name="wrong_data_downloaded">Во время загрузки произошла ошибка</string>
     <string name="try_again">Повторить</string>
+
+    <string name="author">Автор </string>
+    <string name="duration">Продолжительность </string>
+    <string name="start_time">Начало в</string>
+    <string name="status_finished">Закончено</string>
+    <string name="status_before">Время старта:</string>
+    <string name="status_going">Контест идёт</string>
+    <string name="status_testing">Системное тестирование</string>
+    <string name="no_author">Не указано</string>
+    <string name="difficulty">Сложность </string>
+    <string name="till_end">До конца </string>
 </resources>

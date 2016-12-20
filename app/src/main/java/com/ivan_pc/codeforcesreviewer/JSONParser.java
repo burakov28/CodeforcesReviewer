@@ -28,7 +28,7 @@ class JSONParser {
         JSONArray result = json.getJSONArray("result");
         for (int i = 0; i < result.length(); ++i) {
             JSONObject contest = result.getJSONObject(i);
-            Log.d(LOG_TAG, contest.toString());
+            //Log.d(LOG_TAG, contest.toString());
             int id = contest.getInt("id");
             String name = contest.getString("name");
             String type = contest.getString("type");
@@ -74,10 +74,10 @@ class JSONParser {
 
             String season = null;
             if (contest.has("season")) season = contest.getString("season");
-            Log.d(LOG_TAG, "ending iteration");
+            //Log.d(LOG_TAG, "ending iteration");
             ret.add(new Contest(id, name, type, phase, duration, startTime, relativeTime, prepareBy,
                     websiteURL, description, difficulty, kind, icpcRegion, country, city, season));
-            Log.d(LOG_TAG, "beginning iteration");
+            //Log.d(LOG_TAG, "beginning iteration");
         }
         return ret;
     }

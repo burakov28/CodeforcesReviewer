@@ -11,6 +11,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -52,6 +54,9 @@ public class MainActivity extends AppCompatActivity
     private ProgressBar progressBar;
     private BroadcastReceiver onLanguageChangeReceiver;
 
+    private RecyclerView contestsView;
+    private ContestList adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +81,10 @@ public class MainActivity extends AppCompatActivity
 
         IntentFilter filter = new IntentFilter(Intent.ACTION_LOCALE_CHANGED);
         registerReceiver(onLanguageChangeReceiver, filter);
+
+
+        contestsView = (RecyclerView) findViewById(R.id.contests_view);
+
 
         startTV = (TextView) findViewById(R.id.startTextView);
         progressBar = (ProgressBar) findViewById(R.id.progress);
@@ -281,6 +290,12 @@ public class MainActivity extends AppCompatActivity
         errorTV.setVisibility(View.INVISIBLE);
         errorButton.setVisibility(View.INVISIBLE);
         //TODO turn off progress bar and shows contests
+
+        String tmp = (chosen_locale.equals(RUSSIAN)) ? "ru" : "en";
+        adapter = new ContestList(this, contests, tmp);
+        contestsView.setAdapter(adapter);
+        contestsView.setLayoutManager(new LinearLayoutManager(this));
+        contestsView.setVisibility(RecyclerView.VISIBLE);
     }
 
     void toStandbyMode() {
@@ -289,6 +304,7 @@ public class MainActivity extends AppCompatActivity
         progressBar.setVisibility(View.VISIBLE);
         errorTV.setVisibility(View.INVISIBLE);
         errorButton.setVisibility(View.INVISIBLE);
+        contestsView.setVisibility(View.INVISIBLE);
     }
 
     void toStartMode() {
@@ -296,12 +312,14 @@ public class MainActivity extends AppCompatActivity
         progressBar.setVisibility(View.INVISIBLE);
         errorTV.setVisibility(View.INVISIBLE);
         errorButton.setVisibility(View.INVISIBLE);
+        contestsView.setVisibility(View.INVISIBLE);
     }
 
     void toErrorMode(String errorMessage) {
         startTV.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
         errorButton.setVisibility(View.VISIBLE);
+        contestsView.setVisibility(View.INVISIBLE);
         String message;
         if (errorMessage.equals(RunnableTask.CONNECTION_LOST)) {
             message = getString(R.string.connection_lost);

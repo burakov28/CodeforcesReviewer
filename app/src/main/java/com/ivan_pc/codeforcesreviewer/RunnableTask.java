@@ -119,7 +119,7 @@ class RunnableTask implements Runnable {
             }
             return;
         }
-        Log.d(LOG_TAG, jsonString);
+        //Log.d(LOG_TAG, jsonString);
         ArrayList<Contest> contests = null;
         try {
             contests = JSONParser.parseContest(jsonString);
