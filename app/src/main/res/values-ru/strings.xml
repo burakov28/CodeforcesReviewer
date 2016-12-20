@@ -5,4 +5,8 @@
     <string name="competition">Соревнования</string>
     <string name="language">Языки</string>
     <string name="welcome">Добро пожаловать в приложение Codeforces контесты</string>
+
+    <string name="connection_lost">Потеряно соединение с сетью</string>
+    <string name="wrong_data_downloaded">Во время загрузки произошла ошибка</string>
+    <string name="try_again">Повторить</string>
 </resources>

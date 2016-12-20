@@ -6,7 +6,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/cf"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -26,11 +26,6 @@
             android:enabled="true"
             android:exported="true" />
 
-        <receiver
-            android:name=".OnLanguageChangeReceiver"
-            android:enabled="true"
-            android:exported="true">
-        </receiver>
     </application>
 
 </manifest>

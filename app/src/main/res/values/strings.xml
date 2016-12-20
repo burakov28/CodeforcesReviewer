@@ -1,11 +1,15 @@
 <resources>
-    <string name="app_name">CodeforcesReviewer</string>
+    <string name="app_name">CodeforcesContests</string>
     <string name="gym">Gym</string>
     <string name="competition">Competition</string>
     <string name="RU">Русский</string>
     <string name="EN">English</string>
     <string name="language">Languages</string>
     <string name="welcome">Welcome to Codeforces Contests</string>
+
+    <string name="connection_lost">Connection lost</string>
+    <string name="wrong_data_downloaded">During download an error occurred</string>
+    <string name="try_again">Try again</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

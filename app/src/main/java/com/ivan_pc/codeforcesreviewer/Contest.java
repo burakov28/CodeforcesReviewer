@@ -30,7 +30,7 @@ public class Contest implements Parcelable {
     //in seconds
     final long duration;
 
-    //in Unix format
+    //in Unix format, can be missed (equals to -1)
     final long startTime;
 
     //can be missed (equals to -1) or negative

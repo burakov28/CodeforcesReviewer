@@ -20,8 +20,8 @@ import java.util.ArrayList;
 
 public class Loader extends Service {
 
-    protected static final String GYM_URL = "http://codeforces.com/api/contest.list?gym=true";
-    protected static final String COMPETITION_URL = "http://codeforces.com/api/contest.list?gym=false";
+    protected static final String GYM_URL = "http://codeforces.com/api/contest.list?gym=true&lang=";
+    protected static final String COMPETITION_URL = "http://codeforces.com/api/contest.list?gym=false&lang=";
     private static final String LOG_TAG = Loader.class.getSimpleName();
 
 
@@ -42,13 +42,15 @@ public class Loader extends Service {
         RunnableTask rt;
         switch (taskCode) {
             case MainActivity.GYM_CODE:
-                rt = new RunnableTask(true, pendingIntent, Loader.this);
+                rt = new RunnableTask(true, pendingIntent, Loader.this,
+                        intent.getStringExtra(MainActivity.LANGUAGE));
                 th = new Thread(rt);
                 th.start();
 
                 break;
             case MainActivity.COMPETITIONS_CODE:
-                rt = new RunnableTask(false, pendingIntent, Loader.this);
+                rt = new RunnableTask(false, pendingIntent, Loader.this,
+                        intent.getStringExtra(MainActivity.LANGUAGE));
                 th = new Thread(rt);
                 th.start();
 

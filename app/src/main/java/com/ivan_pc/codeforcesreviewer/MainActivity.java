@@ -1,14 +1,12 @@
 package com.ivan_pc.codeforcesreviewer;
 
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Parcelable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,10 +16,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -32,29 +32,55 @@ public class MainActivity extends AppCompatActivity
     static final int GYM_CODE = 1;
     static final int COMPETITIONS_CODE = 2;
     static final int FINISH_CODE = 100;
+    static final int ERROR_CODE = -100;
     static final String ANSWER = "answer";
     public static final String PENDING_INTENT = "pendingIntent";
     public static final String RUSSIAN = "russian";
     public static final String ENGLISH = "english";
     private static final String LOCALE_KEY = "locale_key";
-    private static final String LAST_LOCALE_KEY = "last_key";
+    private static final String LAST_CODE = "last_code";
+    private static final String RUSSIAN_LANGUAGE = "русский";
+    public static final String LANGUAGE = "lang";
 
-    public String locale;
-
-    private OnLanguageChangeReceiver onLanguageChangeReceiver = new OnLanguageChangeReceiver();
+    public String chosen_locale;
     private int currentTaskCode;
+    private int last_code;
+
+    private TextView startTV;
+    private TextView errorTV;
+    private Button errorButton;
+    private ProgressBar progressBar;
+    private BroadcastReceiver onLanguageChangeReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            locale = savedInstanceState.getString(LOCALE_KEY);
-        }
         setContentView(R.layout.activity_main);
+
+        last_code = 0;
+        if (savedInstanceState != null) {
+            if (chosen_locale == null) chosen_locale = savedInstanceState.getString(LOCALE_KEY);
+            last_code = savedInstanceState.getInt(LAST_CODE);
+        }
+
+        if (onLanguageChangeReceiver == null) {
+            onLanguageChangeReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    updateLocale();
+                }
+            };
+            IntentFilter intentFilter = new IntentFilter(Intent.ACTION_LOCALE_CHANGED);
+            registerReceiver(onLanguageChangeReceiver, intentFilter);
+        }
 
         IntentFilter filter = new IntentFilter(Intent.ACTION_LOCALE_CHANGED);
         registerReceiver(onLanguageChangeReceiver, filter);
 
+        startTV = (TextView) findViewById(R.id.startTextView);
+        progressBar = (ProgressBar) findViewById(R.id.progress);
+        errorButton = (Button) findViewById(R.id.errorButton);
+        errorTV = (TextView) findViewById(R.id.errorTextView);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -62,20 +88,23 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        //drawer.setDrawerListener(toggle);
         toggle.syncState();
-
-        //TODO: add recyclerView which shows information about contest in short view
-        //TODO: after pressing on a contest start a new activity with full information about the contest
-        //TODO: add buttons to open the contest in browser. If it hasn't been started, show remaining time to start
-        //TODO: if it has been started, show remaining time, remember about time zones
-        //TODO: add progress bar while downloading is in process
-        //TODO: information about Contest class int Contest.java :)
-        //TODO: implement news showing, but I want to eliminate it
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
+
+        if (last_code == 0) {
+            toStartMode();
+        }
+        else {
+            if (last_code == COMPETITIONS_CODE) {
+                executeNavigationItemSelected(R.id.nav_competitions);
+            }
+            else {
+                executeNavigationItemSelected(R.id.nav_gym);
+            }
+        }
 
     }
 
@@ -87,7 +116,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putString(LOCALE_KEY, locale);
+        outState.putString(LOCALE_KEY, chosen_locale);
+        outState.putInt(LAST_CODE, last_code);
         super.onSaveInstanceState(outState);
     }
 
@@ -122,7 +152,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        executeNavigationItemSelected(item.getItemId());
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    void executeNavigationItemSelected(int id) {
         PendingIntent pendingIntent;
         Intent intent;
 
@@ -130,33 +167,44 @@ public class MainActivity extends AppCompatActivity
             stopService(new Intent(this, Loader.class));
         }
 
-        if (id == R.id.nav_competitions) {
-            currentTaskCode = COMPETITIONS_CODE;
-            pendingIntent = createPendingResult(COMPETITIONS_CODE, new Intent(), 0);
-            intent = new Intent(this, Loader.class).putExtra(TASK_CODE, COMPETITIONS_CODE)
-                    .putExtra(PENDING_INTENT, pendingIntent);
-            startService(intent);
-        } else if (id == R.id.nav_gym) {
-            currentTaskCode = GYM_CODE;
-            pendingIntent = createPendingResult(GYM_CODE, new Intent(), 0);
-            intent = new Intent(this, Loader.class).putExtra(TASK_CODE, GYM_CODE)
-                    .putExtra(PENDING_INTENT, pendingIntent);
-            startService(intent);
-        } else if (id == R.id.russian) {
-            if (locale == null || !locale.equals(RUSSIAN)) {
-                locale = RUSSIAN;
-                updateLang(locale);
+        if (chosen_locale == null) {
+            if (RUSSIAN_LANGUAGE.equalsIgnoreCase(Locale.getDefault().getDisplayLanguage())) {
+                chosen_locale = RUSSIAN;
             }
-        } else if (id == R.id.english) {
-            if (locale == null || !locale.equals(ENGLISH)) {
-                locale = ENGLISH;
-                updateLang(locale);
+            else {
+                chosen_locale = ENGLISH;
             }
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+        if (id == R.id.nav_competitions) {
+            toStandbyMode();
+            currentTaskCode = COMPETITIONS_CODE;
+            pendingIntent = createPendingResult(COMPETITIONS_CODE, new Intent(), 0);
+            intent = new Intent(this, Loader.class).putExtra(TASK_CODE, COMPETITIONS_CODE)
+                    .putExtra(PENDING_INTENT, pendingIntent)
+                    .putExtra(LANGUAGE, chosen_locale);
+
+            startService(intent);
+        } else if (id == R.id.nav_gym) {
+            toStandbyMode();
+            currentTaskCode = GYM_CODE;
+            pendingIntent = createPendingResult(GYM_CODE, new Intent(), 0);
+            intent = new Intent(this, Loader.class).putExtra(TASK_CODE, GYM_CODE)
+                    .putExtra(PENDING_INTENT, pendingIntent)
+                    .putExtra(LANGUAGE, chosen_locale);
+
+            startService(intent);
+        } else if (id == R.id.russian) {
+            if (!chosen_locale.equals(RUSSIAN)) {
+                chosen_locale = RUSSIAN;
+                updateLang();
+            }
+        } else if (id == R.id.english) {
+            if (!chosen_locale.equals(ENGLISH)) {
+                chosen_locale = ENGLISH;
+                updateLang();
+            }
+        }
     }
 
     @Override
@@ -168,30 +216,109 @@ public class MainActivity extends AppCompatActivity
             currentTaskCode = -1;
             stopService(new Intent(this, Loader.class));
             switch (requestCode) {
-                // TODO: implements request's answers
                 case COMPETITIONS_CODE:
+                    last_code = COMPETITIONS_CODE;
                     contests = data.getParcelableArrayListExtra(ANSWER);
                     toDisplayMode(contests);
                     break;
                 case GYM_CODE:
+                    last_code = GYM_CODE;
                     contests = data.getParcelableArrayListExtra(ANSWER);
                     toDisplayMode(contests);
             }
+        }
+
+        if (resultCode == ERROR_CODE) {
+            if (currentTaskCode != -1) {
+                currentTaskCode = -1;
+                stopService(new Intent(this, Loader.class));
+            }
+
+            chosen_locale = data.getStringExtra(RunnableTask.LANGUAGE_KEY);
+            last_code= data.getIntExtra(RunnableTask.IS_GYM_KEY, 0);
+
+            toErrorMode(data.getStringExtra(RunnableTask.ERROR_MESSAGE_KEY));
+        }
+    }
 
 
+
+    void updateLang() {
+        if (last_code == 0) {
+            return;
+        }
+
+        if (last_code == COMPETITIONS_CODE) {
+            executeNavigationItemSelected(R.id.nav_competitions);
+        }
+        else {
+            executeNavigationItemSelected(R.id.nav_gym);
+        }
+    }
+
+    void updateLocale() {
+        if (currentTaskCode != -1) {
+            currentTaskCode = -1;
+            stopService(new Intent(this, Loader.class));
+        }
+        String new_locale;
+        if (RUSSIAN_LANGUAGE.equalsIgnoreCase(Locale.getDefault().getDisplayLanguage())) {
+            new_locale = RUSSIAN;
+        }
+        else {
+            new_locale = ENGLISH;
+        }
+
+        if (chosen_locale == null || !new_locale.equals(chosen_locale)) {
+            chosen_locale = new_locale;
+            updateLang();
         }
     }
 
     void toDisplayMode(List<Contest> contests) {
+        progressBar.setVisibility(View.INVISIBLE);
+        startTV.setVisibility(View.INVISIBLE);
+        errorTV.setVisibility(View.INVISIBLE);
+        errorButton.setVisibility(View.INVISIBLE);
         //TODO turn off progress bar and shows contests
     }
 
     void toStandbyMode() {
-        //TODO turn on progress bar and disable RecyclingView
+        last_code = 0;
+        startTV.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+        errorTV.setVisibility(View.INVISIBLE);
+        errorButton.setVisibility(View.INVISIBLE);
     }
 
-    void updateLang(String nec_locale) {
-        toStandbyMode();
+    void toStartMode() {
+        startTV.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
+        errorTV.setVisibility(View.INVISIBLE);
+        errorButton.setVisibility(View.INVISIBLE);
+    }
 
+    void toErrorMode(String errorMessage) {
+        startTV.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
+        errorButton.setVisibility(View.VISIBLE);
+        String message;
+        if (errorMessage.equals(RunnableTask.CONNECTION_LOST)) {
+            message = getString(R.string.connection_lost);
+        }
+        else {
+            message = getString(R.string.wrong_data_downloaded);
+        }
+        errorTV.setText(message);
+        errorTV.setVisibility(View.VISIBLE);
+    }
+
+    public void tryAgainPressed(View view) {
+        if (last_code == COMPETITIONS_CODE) {
+            executeNavigationItemSelected(R.id.nav_competitions);
+        }
+        else {
+            executeNavigationItemSelected(R.id.nav_gym);
+        }
     }
 }
