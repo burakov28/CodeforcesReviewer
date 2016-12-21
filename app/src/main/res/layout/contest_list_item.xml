@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_marginBottom="@dimen/fab_margin"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+	android:orientation="vertical"
+	android:layout_marginBottom="@dimen/for_contest_items"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:paddingLeft="@dimen/fab_margin"
+	android:paddingRight="@dimen/fab_margin">
 
 	<TextView
+		android:textSize="@dimen/contest_name_size"
 		android:id="@+id/contest_name"
-	    android:layout_width="wrap_content"
+	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 		android:gravity="center"/>
 
 	<TextView
+		android:textSize="@dimen/status_text_size"
 		android:id="@+id/status"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"/>
@@ -22,14 +26,19 @@
 		android:orientation="horizontal">
 
 		<TextView
-			android:layout_width="wrap_content"
+			android:textSize="@dimen/another_item_text_size"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/author"/>
+			android:text="@string/author"
+			android:id="@+id/author_sign"
+			android:layout_weight="1"/>
 		<TextView
+			android:textSize="@dimen/another_item_text_size"
 			android:id="@+id/author"
-			android:layout_width="wrap_content"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/no_author"/>
+			android:layout_weight="1"
+			android:gravity="end"/>
 	</LinearLayout>
 
 	<LinearLayout
@@ -38,46 +47,56 @@
 		android:orientation="horizontal">
 
 		<TextView
-			android:layout_width="wrap_content"
+			android:textSize="@dimen/another_item_text_size"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/duration"/>
+			android:id="@+id/length_sign"
+			android:text="@string/duration"
+			android:layout_weight="1"/>
 
 		<TextView
-			android:layout_width="wrap_content"
+			android:textSize="@dimen/another_item_text_size"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:id="@+id/duration"/>
-	</LinearLayout>
-
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
-
-		<TextView
-			android:id="@+id/time_name"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"/>
-
-		<TextView
-			android:id="@+id/time"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:id="@+id/duration"
+			android:layout_weight="1"
 			android:gravity="end"/>
-
-
 	</LinearLayout>
 
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginEnd="@dimen/fab_margin"
-		android:layout_marginRight="@dimen/fab_margin">
+		android:id="@+id/time_container">
 
 		<TextView
-			android:layout_width="wrap_content"
+			android:textSize="@dimen/another_item_text_size"
+			android:id="@+id/time_name"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"/>
+
+		<TextView
+			android:textSize="@dimen/another_item_text_size"
+			android:id="@+id/time"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="end"/>
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/difficulty_container">
+
+		<TextView
+			android:textSize="@dimen/another_item_text_size"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/difficulty"
-			android:layout_marginEnd="@dimen/fab_margin"
-			android:layout_marginRight="@dimen/fab_margin"/>
+			android:id="@+id/complexity_sign"
+			android:layout_weight="1"/>
+
 		<ProgressBar
 			android:id="@+id/difficulty"
 			android:layout_width="match_parent"
@@ -86,7 +105,8 @@
 			android:indeterminate="false"
 			android:max="5"
 			android:progress="0"
-			android:visibility="invisible"/>
+			android:layout_weight="1"
+			android:gravity="end"/>
 	</LinearLayout>
 
 </LinearLayout>

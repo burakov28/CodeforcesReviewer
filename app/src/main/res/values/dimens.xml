@@ -6,4 +6,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="half_fab_margin">8dp</dimen>
+    <dimen name="for_contest_items">30dp</dimen>
+    <dimen name="contest_name_size">20sp</dimen>
+    <dimen name="another_item_text_size">12sp</dimen>
+    <dimen name="status_text_size">16sp</dimen>
 </resources>

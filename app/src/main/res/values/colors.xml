@@ -3,4 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="status_before">#22d3f9</color>
+    <color name="status_going">#22f950</color>
+    <color name="status_finished">#d24735</color>
+    <color name="waiting_for_system_testing">#5eb52e</color>
+    <color name="status_testing">#d3db54</color>
 </resources>

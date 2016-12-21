@@ -5,8 +5,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,6 +26,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -43,10 +48,12 @@ public class MainActivity extends AppCompatActivity
     private static final String LAST_CODE = "last_code";
     private static final String RUSSIAN_LANGUAGE = "русский";
     public static final String LANGUAGE = "lang";
+    public static final String INTEREST_CONTEST = "interest_contest";
 
     public String chosen_locale;
     private int currentTaskCode;
     private int last_code;
+    private ContestItemListener.ContestTouchListener listener;
 
     private TextView startTV;
     private TextView errorTV;
@@ -84,6 +91,25 @@ public class MainActivity extends AppCompatActivity
 
 
         contestsView = (RecyclerView) findViewById(R.id.contests_view);
+        contestsView.setAdapter(new ContestList(this, new ArrayList<Contest>(), "en"));
+        contestsView.setLayoutManager(new LinearLayoutManager(this));
+        contestsView.addItemDecoration(new ContestItemDecorator(ContextCompat.getDrawable(getApplicationContext(), R.drawable.contest_list_devider)));
+        listener = new ContestItemListener.ContestTouchListener() {
+            private List<Contest> contests;
+            private String locale;
+            public void onClick(View v, int pos) {
+                System.out.println("Pressed on " + pos);
+                Intent intent = new Intent(MainActivity.this, ContestActivity.class);
+                intent.putExtra(INTEREST_CONTEST, contests.get(pos));
+                intent.putExtra("locale", locale);
+                startActivity(intent);
+            }
+            public void getContest(List<Contest> contests, String locale) {
+                this.contests = contests;
+                this.locale = locale;
+            }
+        };
+        contestsView.addOnItemTouchListener(new ContestItemListener(getApplicationContext(), contestsView, listener));
 
 
         startTV = (TextView) findViewById(R.id.startTextView);
@@ -278,23 +304,25 @@ public class MainActivity extends AppCompatActivity
             new_locale = ENGLISH;
         }
 
+        System.out.println("Hay!");
         if (chosen_locale == null || !new_locale.equals(chosen_locale)) {
             chosen_locale = new_locale;
+            System.out.println("Here!");
             updateLang();
         }
     }
 
-    void toDisplayMode(List<Contest> contests) {
+    void toDisplayMode(final List<Contest> contests) {
         progressBar.setVisibility(View.INVISIBLE);
         startTV.setVisibility(View.INVISIBLE);
         errorTV.setVisibility(View.INVISIBLE);
         errorButton.setVisibility(View.INVISIBLE);
         //TODO turn off progress bar and shows contests
 
+        listener.getContest(contests, chosen_locale);
         String tmp = (chosen_locale.equals(RUSSIAN)) ? "ru" : "en";
         adapter = new ContestList(this, contests, tmp);
         contestsView.setAdapter(adapter);
-        contestsView.setLayoutManager(new LinearLayoutManager(this));
         contestsView.setVisibility(RecyclerView.VISIBLE);
     }
 

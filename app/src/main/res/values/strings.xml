@@ -20,11 +20,20 @@
     <string name="duration">Length </string>
     <string name="start_time">Start at</string>
     <string name="status_finished">Finished</string>
-    <string name="status_before">Before start</string>
+    <string name="status_before">Not started</string>
     <string name="status_going">Going</string>
     <string name="waiting_for_system_testing">Waiting for system testing</string>
     <string name="status_testing">System testing</string>
     <string name="no_author">Not indicated</string>
     <string name="difficulty">Complexity </string>
     <string name="till_end">Till end</string>
+    <string name="type">Type</string>
+    <string name="website">Website URL</string>
+    <string name="description">Description</string>
+    <string name="kind">Kind</string>
+    <string name="icpc_region">ICPC region</string>
+    <string name="country">Country</string>
+    <string name="city">City</string>
+    <string name="season">Season</string>
+    <string name="phase">Phase</string>
 </resources>
