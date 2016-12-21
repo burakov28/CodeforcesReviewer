@@ -36,4 +36,25 @@
     <string name="city">City</string>
     <string name="season">Season</string>
     <string name="phase">Phase</string>
+
+    <string name="author_ru">Автор </string>
+    <string name="duration_ru">Продолжительность </string>
+    <string name="start_time_ru">Время старта</string>
+    <string name="status_finished_ru">Закончено</string>
+    <string name="status_before_ru">Не стартовало</string>
+    <string name="status_going_ru">Контест идёт</string>
+    <string name="waiting_for_system_testing_ru">Ожидание системного тестирования</string>
+    <string name="status_testing_ru">Системное тестирование</string>
+    <string name="no_author_ru">Не указано</string>
+    <string name="difficulty_ru">Сложность </string>
+    <string name="till_end_ru">До конца </string>
+    <string name="type_ru">Тип</string>
+    <string name="website_ru">Адрес вебсайта</string>
+    <string name="description_ru">Описание</string>
+    <string name="kind_ru">Вид</string>
+    <string name="icpc_region_ru">ICPC регион</string>
+    <string name="country_ru">Страна</string>
+    <string name="city_ru">Город</string>
+    <string name="season_ru">Сезон</string>
+    <string name="phase_ru">Статус</string>
 </resources>
