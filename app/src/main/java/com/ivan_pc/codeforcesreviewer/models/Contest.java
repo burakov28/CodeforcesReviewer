@@ -1,4 +1,4 @@
-package com.ivan_pc.codeforcesreviewer;
+package com.ivan_pc.codeforcesreviewer.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -14,59 +14,59 @@ public class Contest implements Parcelable {
     // Nullable means that show this field isn't necessary
 
     // Identificator of contest, is necessary to build a link for browser to open this contest
-    final int id;
+    public final int id;
 
     @NonNull
-    final String name;
+    public final String name;
 
     @NonNull
     //System of judging may be : CF, IOI, ICPC
-    final String type;
+    public final String type;
 
     @NonNull
     //Phase of contest may be : BEFORE, CODING, PENDING_SYSTEM_TEST, SYSTEM_TEST, FINISHED
-    final String phase;
+    public final String phase;
 
     //in seconds
-    final long duration;
+    public final long duration;
 
     //in Unix format, can be missed (equals to -1)
-    final long startTime;
+    public final long startTime;
 
     //can be missed (equals to -1) or negative
     //describe how many seconds passed after starting
-    final long relativeTime;
+    public final long relativeTime;
 
     @Nullable
     //Author's handle
-    final String preparedBy;
+    public final String preparedBy;
 
     @Nullable
     //website of contest
-    final String websiteURL;
+    public final String websiteURL;
 
     @Nullable
-    final String description;
+    public final String description;
 
     // from 1 to 5, if it is missing - it equals to 0
-    final int difficulty;
+    public final int difficulty;
 
     @Nullable
     //kind of contest may be : Офиц. ACM-ICPC соревнование, Официальное школьное соревнование, Этап открытого кубка, Чемпионат школы/университета/города/области, Соревнование со сборов, Офиц. международное инд. соревнование, Тренировочное соревнование.
-    final String kind;
+    public final String kind;
 
     @Nullable
     //Region if it is ICPC
-    final String icpcRegion;
+    public final String icpcRegion;
 
     @Nullable
-    final String country;
+    public final String country;
 
     @Nullable
-    final String city;
+    public final String city;
 
     @Nullable
-    final String season;
+    public final String season;
 
     public Contest(int id, @NonNull String name, @NonNull String type, @NonNull String phase,
                    long duration, long startTime, long relativeTime, @Nullable String preparedBy,

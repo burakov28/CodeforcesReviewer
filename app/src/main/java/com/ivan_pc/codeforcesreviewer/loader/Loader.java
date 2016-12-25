@@ -1,20 +1,11 @@
-package com.ivan_pc.codeforcesreviewer;
+package com.ivan_pc.codeforcesreviewer.loader;
 
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 
-import org.json.JSONException;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
+import com.ivan_pc.codeforcesreviewer.MainActivity;
 
 // It's loader, all messages sends from RunnableTask which execute downloading in WorkingThread
 

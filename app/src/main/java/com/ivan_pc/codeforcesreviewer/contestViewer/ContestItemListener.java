@@ -1,11 +1,12 @@
-package com.ivan_pc.codeforcesreviewer;
+package com.ivan_pc.codeforcesreviewer.contestViewer;
 
 import android.content.Context;
-import android.gesture.Gesture;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.ivan_pc.codeforcesreviewer.models.Contest;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class ContestItemListener implements RecyclerView.OnItemTouchListener {
 
-	private final ContestTouchListener listener;
+	public final ContestTouchListener listener;
 	private GestureDetector detector;
 
 	public ContestItemListener(Context context, final RecyclerView rv, final ContestTouchListener listener) {
@@ -46,7 +47,7 @@ public class ContestItemListener implements RecyclerView.OnItemTouchListener {
 
 	}
 
-	interface ContestTouchListener {
+	public interface ContestTouchListener {
 		void onClick(View v, int pos);
 		void getContest(List<Contest> contests, String locale);
 	}

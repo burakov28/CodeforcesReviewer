@@ -5,10 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -18,13 +15,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.ivan_pc.codeforcesreviewer.contestViewer.ContestActivity;
+import com.ivan_pc.codeforcesreviewer.contestViewer.ContestItemDecorator;
+import com.ivan_pc.codeforcesreviewer.contestViewer.ContestItemListener;
+import com.ivan_pc.codeforcesreviewer.contestViewer.ContestList;
+import com.ivan_pc.codeforcesreviewer.loader.Loader;
+import com.ivan_pc.codeforcesreviewer.loader.RunnableTask;
+import com.ivan_pc.codeforcesreviewer.models.Contest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,15 +39,16 @@ public class MainActivity extends AppCompatActivity
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
-    static final String TASK_CODE = "taskCode";
-    static final int GYM_CODE = 1;
-    static final int COMPETITIONS_CODE = 2;
-    static final int FINISH_CODE = 100;
-    static final int ERROR_CODE = -100;
-    static final String ANSWER = "answer";
+    public static final String TASK_CODE = "taskCode";
+    public static final int GYM_CODE = 1;
+    public static final int COMPETITIONS_CODE = 2;
+    public static final int FINISH_CODE = 100;
+    public static final int ERROR_CODE = -100;
+    public static final String ANSWER = "answer";
     public static final String PENDING_INTENT = "pendingIntent";
     public static final String RUSSIAN = "russian";
     public static final String ENGLISH = "english";
+
     private static final String LOCALE_KEY = "locale_key";
     private static final String LAST_CODE = "last_code";
     private static final String RUSSIAN_LANGUAGE = "русский";

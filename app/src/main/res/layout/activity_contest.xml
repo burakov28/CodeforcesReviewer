@@ -9,7 +9,7 @@
 	android:paddingLeft="@dimen/activity_horizontal_margin"
 	android:paddingRight="@dimen/activity_horizontal_margin"
 	android:paddingTop="@dimen/activity_vertical_margin"
-	tools:context="com.ivan_pc.codeforcesreviewer.ContestActivity"
+	tools:context="com.ivan_pc.codeforcesreviewer.contestViewer.ContestActivity"
 	android:orientation="vertical">
 
 	<TextView

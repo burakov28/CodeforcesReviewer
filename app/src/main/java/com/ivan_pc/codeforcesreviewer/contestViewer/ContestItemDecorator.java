@@ -1,4 +1,4 @@
-package com.ivan_pc.codeforcesreviewer;
+package com.ivan_pc.codeforcesreviewer.contestViewer;
 
 import android.content.Context;
 import android.content.res.ColorStateList;

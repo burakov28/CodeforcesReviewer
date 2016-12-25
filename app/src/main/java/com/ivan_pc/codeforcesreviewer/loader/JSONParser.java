@@ -1,13 +1,15 @@
-package com.ivan_pc.codeforcesreviewer;
+package com.ivan_pc.codeforcesreviewer.loader;
 
 import android.util.Log;
+
+import com.ivan_pc.codeforcesreviewer.models.Contest;
+import com.ivan_pc.codeforcesreviewer.exceptions.MyException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Ivan-PC on 18.12.2016.

@@ -15,10 +15,9 @@
 
     </group>
 
-
-    <item android:title="@string/language">
-        <menu>
-            <item
+    <item android:title="@string/language"
+        android:id="@+id/language">
+        <item
             android:id="@+id/russian"
             android:icon="@drawable/ru"
             android:title="@string/RU" />
@@ -26,7 +25,5 @@
             android:id="@+id/english"
             android:icon="@drawable/uk"
             android:title="@string/EN"/>
-        </menu>
     </item>
-
 </menu>

@@ -1,16 +1,16 @@
-package com.ivan_pc.codeforcesreviewer;
+package com.ivan_pc.codeforcesreviewer.contestViewer;
 
-import android.app.ActionBar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.ivan_pc.codeforcesreviewer.MainActivity;
+import com.ivan_pc.codeforcesreviewer.R;
+import com.ivan_pc.codeforcesreviewer.models.Contest;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

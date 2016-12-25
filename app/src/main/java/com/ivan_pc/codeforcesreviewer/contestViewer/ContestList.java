@@ -1,18 +1,18 @@
-package com.ivan_pc.codeforcesreviewer;
+package com.ivan_pc.codeforcesreviewer.contestViewer;
 
 import android.content.Context;
-import android.provider.SyncStateContract;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.ivan_pc.codeforcesreviewer.R;
+import com.ivan_pc.codeforcesreviewer.models.Contest;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -22,11 +22,11 @@
 		</activity>
 
 		<service
-			android:name=".Loader"
+			android:name=".loader.Loader"
 			android:enabled="true"
 			android:exported="true"/>
 
-		<activity android:name=".ContestActivity">
+		<activity android:name=".contestViewer.ContestActivity">
 		</activity>
 	</application>
 

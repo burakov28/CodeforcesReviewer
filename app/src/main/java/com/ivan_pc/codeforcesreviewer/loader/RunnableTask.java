@@ -1,8 +1,13 @@
-package com.ivan_pc.codeforcesreviewer;
+package com.ivan_pc.codeforcesreviewer.loader;
 
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.util.Log;
+
+import com.ivan_pc.codeforcesreviewer.models.Contest;
+import com.ivan_pc.codeforcesreviewer.MainActivity;
+import com.ivan_pc.codeforcesreviewer.cache.ContestCache;
+import com.ivan_pc.codeforcesreviewer.exceptions.MyException;
 
 import org.json.JSONException;
 
@@ -20,66 +25,91 @@ import java.util.ArrayList;
 
 // it downloads JSONString
 
-class RunnableTask implements Runnable {
+public class RunnableTask implements Runnable {
     private static final String LOG_TAG = RunnableTask.class.getSimpleName();
     private static final String RU = "ru";
     private static final String EN = "en";
 
-    static final String IS_GYM_KEY = "is_gym_key";
-    static final String LANGUAGE_KEY = "language_key";
-    static final String ERROR_MESSAGE_KEY = "error_message_key";
-    static final String CONNECTION_LOST = "connection_lost";
-    static final String WRONG_DATA_DOWNLOADED = "wrong_data_downloaded";
+    public static final String IS_GYM_KEY = "is_gym_key";
+    public static final String LANGUAGE_KEY = "language_key";
+    public static final String ERROR_MESSAGE_KEY = "error_message_key";
+    public static final String CONNECTION_LOST = "connection_lost";
+    public static final String WRONG_DATA_DOWNLOADED = "wrong_data_downloaded";
 
     private HttpURLConnection connection;
     private PendingIntent pendingIntent;
     private final boolean isGym;
     private String language;
     private Loader loader;
+    private ContestCache cache;
 
     RunnableTask (boolean isGym, PendingIntent pendingIntent, Loader loader, String language) {
         this.isGym = isGym;
         this.pendingIntent = pendingIntent;
         this.loader = loader;
         this.language = language;
+        cache = new ContestCache(loader);
+    }
+
+    private String getFromCache(String urlString) {
+        String ret = null;
+        try {
+            ret = cache.get(urlString);
+        } catch (MyException e) {
+            Log.d(LOG_TAG, e.cause);
+        }
+        return ret;
     }
 
     private String getJSONString(String urlString) throws IOException {
-        Log.d(LOG_TAG, urlString);
-        URL url;
-        BufferedReader reader = null;
-        try {
-            url = new URL(urlString);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            throw new IOException();
-        }
-        StringBuilder jsonString;
-        try {
-            connection = (HttpURLConnection) url.openConnection();
-            connection.connect();
 
-            reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            jsonString = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                jsonString.append(line);
+        String answer = getFromCache(urlString);
+
+        if (answer != null) {
+            Log.d(LOG_TAG, "downloaded from cache");
+            return answer;
+        }
+        else {
+            Log.d(LOG_TAG, "cache miss");
+            Log.d(LOG_TAG, urlString);
+            URL url;
+            BufferedReader reader = null;
+            try {
+                url = new URL(urlString);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                throw new IOException();
             }
-        } catch (IOException e) {
-            throw e;
-        } finally {
-            if (connection != null) {
-                connection.disconnect();
-            }
-            if (reader != null) {
-                try { reader.close(); }
-                catch (IOException e) {
-                    Log.d(LOG_TAG, "Can't close reader");
-                    e.printStackTrace();
+            StringBuilder jsonString;
+            try {
+                connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+
+                reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                jsonString = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    jsonString.append(line);
+                }
+            } catch (IOException e) {
+                throw e;
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        Log.d(LOG_TAG, "Can't close reader");
+                        e.printStackTrace();
+                    }
                 }
             }
+            answer = jsonString.toString();
+            cache.put(urlString, answer);
+            return answer;
         }
-        return jsonString.toString();
     }
 
 

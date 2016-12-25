@@ -1,4 +1,4 @@
-package com.ivan_pc.codeforcesreviewer;
+package com.ivan_pc.codeforcesreviewer.exceptions;
 
 import org.xml.sax.Parser;
 
@@ -7,9 +7,9 @@ import org.xml.sax.Parser;
  */
 
 public class MyException extends Exception {
-    String cause;
+    public String cause;
 
-    MyException(String cause) {
+    public MyException(String cause) {
         super();
         this.cause = cause;
     }
