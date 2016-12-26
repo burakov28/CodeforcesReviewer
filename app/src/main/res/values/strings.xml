@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CodeforcesReviewer</string>
+    <string name="app_name">CodeforcesContests</string>
     <string name="gym">Gym</string>
     <string name="competition">Competition</string>
     <string name="RU">Русский</string>

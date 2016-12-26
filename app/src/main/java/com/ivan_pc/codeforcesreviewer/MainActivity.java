@@ -218,6 +218,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_competitions) {
             toStandbyMode();
+            last_code = COMPETITIONS_CODE;
             currentTaskCode = COMPETITIONS_CODE;
             pendingIntent = createPendingResult(COMPETITIONS_CODE, new Intent(), 0);
             intent = new Intent(this, Loader.class).putExtra(TASK_CODE, COMPETITIONS_CODE)
@@ -227,6 +228,7 @@ public class MainActivity extends AppCompatActivity
             startService(intent);
         } else if (id == R.id.nav_gym) {
             toStandbyMode();
+            last_code = GYM_CODE;
             currentTaskCode = GYM_CODE;
             pendingIntent = createPendingResult(GYM_CODE, new Intent(), 0);
             intent = new Intent(this, Loader.class).putExtra(TASK_CODE, GYM_CODE)
@@ -322,7 +324,6 @@ public class MainActivity extends AppCompatActivity
         startTV.setVisibility(View.INVISIBLE);
         errorTV.setVisibility(View.INVISIBLE);
         errorButton.setVisibility(View.INVISIBLE);
-        //TODO turn off progress bar and shows contests
 
         listener.getContest(contests, chosen_locale);
         String tmp = (chosen_locale.equals(RUSSIAN)) ? "ru" : "en";
