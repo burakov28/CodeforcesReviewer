@@ -1,10 +1,16 @@
 package com.ivan_pc.codeforcesreviewer.contestViewer;
 
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.Uri;
+import android.nfc.Tag;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,7 +30,7 @@ public class ContestActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contest);
 
-		Contest interestContest = getIntent().getParcelableExtra(MainActivity.INTEREST_CONTEST);
+		final Contest interestContest = getIntent().getParcelableExtra(MainActivity.INTEREST_CONTEST);
 		String locale = getIntent().getStringExtra("locale");
 		System.out.println(interestContest.name + " " + interestContest.preparedBy);
 
@@ -183,5 +189,32 @@ public class ContestActivity extends AppCompatActivity {
 		} else {
 			contestRelativeTimeContainer.setVisibility(View.GONE);
 		}
+
+		Button linkButton = (Button) findViewById(R.id.link_button);
+		linkButton.setText(locale.equals(MainActivity.ENGLISH) ? R.string.link_button : R.string.link_button_ru);
+		linkButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(interestContest.getContestUrl()));
+				startActivity(browserIntent);
+			}
+		});
+
+		Button authorButton = (Button) findViewById(R.id.author_button);
+		if (interestContest.getAuthorUrl() == null) {
+			authorButton.setVisibility(View.GONE);
+		}
+		authorButton.setText(locale.equals(MainActivity.ENGLISH) ? R.string.author_button : R.string.author_button_ru);
+		authorButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Log.d("Link", interestContest.getAuthorUrl());
+				if (interestContest.getAuthorUrl() == null) {
+					return;
+				}
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(interestContest.getAuthorUrl()));
+				startActivity(browserIntent);
+			}
+		});
 	}
 }

@@ -30,6 +30,9 @@
     <string name="city_ru">Город</string>
     <string name="season_ru">Сезон</string>
     <string name="phase_ru">Статус</string>
+    <string name="link_button_ru">Перейти на страницу контеста</string>
+    <string name="author_button_ru">Перейти на страницу автора</string>
+
 
     <string name="author">Author </string>
     <string name="duration">Length </string>
@@ -51,4 +54,6 @@
     <string name="city">City</string>
     <string name="season">Season</string>
     <string name="phase">Phase</string>
+    <string name="link_button">Contest page</string>
+    <string name="author_button">Author page</string>
 </resources>

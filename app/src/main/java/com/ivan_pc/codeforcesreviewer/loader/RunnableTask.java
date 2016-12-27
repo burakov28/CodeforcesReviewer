@@ -34,7 +34,7 @@ public class RunnableTask implements Runnable {
     public static final String LANGUAGE_KEY = "language_key";
     public static final String ERROR_MESSAGE_KEY = "error_message_key";
     public static final String CONNECTION_LOST = "connection_lost";
-    public static final String WRONG_DATA_DOWNLOADED = "wrong_data_downloaded";
+    private static final String WRONG_DATA_DOWNLOADED = "wrong_data_downloaded";
 
     private HttpURLConnection connection;
     private PendingIntent pendingIntent;

@@ -91,12 +91,12 @@ public class Contest implements Parcelable {
         this.season = season;
     }
 
-    public String getAuthorUrl() {
+    public final String getAuthorUrl() {
         if (preparedBy == null) return null;
         return "http://codeforces.com/profile/" + preparedBy;
     }
 
-    public String getContestUrl() {
+    public final String getContestUrl() {
         return "http://codeforces.com/contests/" + Integer.toString(id);
     }
 

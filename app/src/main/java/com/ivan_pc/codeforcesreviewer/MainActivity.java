@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
@@ -15,10 +16,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity
     private static final String RUSSIAN_LANGUAGE = "русский";
     public static final String LANGUAGE = "lang";
     public static final String INTEREST_CONTEST = "interest_contest";
+    public static final String MAIN_PAGE = "http://codeforces.com/";
 
     public String chosen_locale;
     private int currentTaskCode;
@@ -67,7 +71,6 @@ public class MainActivity extends AppCompatActivity
     private BroadcastReceiver onLanguageChangeReceiver;
 
     private RecyclerView contestsView;
-    private ContestList adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +149,14 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
+    }
+
+    public void NavigationClick(View v) {
+        Log.d("Browser", "Hello!");
+        Log.d("Browser", "clicked?");
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(MAIN_PAGE));
+        startActivity(browserIntent);
+        Log.d("Browser", "nothing happened");
     }
 
     @Override
@@ -327,7 +338,7 @@ public class MainActivity extends AppCompatActivity
 
         listener.getContest(contests, chosen_locale);
         String tmp = (chosen_locale.equals(RUSSIAN)) ? "ru" : "en";
-        adapter = new ContestList(this, contests, tmp);
+        ContestList adapter = new ContestList(this, contests, tmp);
         contestsView.setAdapter(adapter);
         contestsView.setVisibility(RecyclerView.VISIBLE);
     }
