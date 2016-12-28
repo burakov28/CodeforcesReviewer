@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -58,11 +60,14 @@ public class MainActivity extends AppCompatActivity
     public static final String LANGUAGE = "lang";
     public static final String INTEREST_CONTEST = "interest_contest";
     public static final String MAIN_PAGE = "http://codeforces.com/";
+    public static final String LIST_POSITION = "list_position";
 
     public String chosen_locale;
     private int currentTaskCode;
     private int last_code;
     private ContestItemListener.ContestTouchListener listener;
+
+    private Parcelable savedState;
 
     private TextView startTV;
     private TextView errorTV;
@@ -119,6 +124,9 @@ public class MainActivity extends AppCompatActivity
         };
         contestsView.addOnItemTouchListener(new ContestItemListener(getApplicationContext(), contestsView, listener));
 
+        if (savedInstanceState != null) {
+            savedState = savedInstanceState.getParcelable(LIST_POSITION);
+        }
 
         startTV = (TextView) findViewById(R.id.startTextView);
         progressBar = (ProgressBar) findViewById(R.id.progress);
@@ -152,7 +160,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void NavigationClick(View v) {
-        Log.d("Browser", "Hello!");
         Log.d("Browser", "clicked?");
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(MAIN_PAGE));
         startActivity(browserIntent);
@@ -169,6 +176,7 @@ public class MainActivity extends AppCompatActivity
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString(LOCALE_KEY, chosen_locale);
         outState.putInt(LAST_CODE, last_code);
+        outState.putParcelable(LIST_POSITION, contestsView.getLayoutManager().onSaveInstanceState());
         super.onSaveInstanceState(outState);
     }
 
@@ -322,10 +330,8 @@ public class MainActivity extends AppCompatActivity
             new_locale = ENGLISH;
         }
 
-        System.out.println("Hay!");
         if (chosen_locale == null || !new_locale.equals(chosen_locale)) {
             chosen_locale = new_locale;
-            System.out.println("Here!");
             updateLang();
         }
     }
@@ -340,6 +346,7 @@ public class MainActivity extends AppCompatActivity
         String tmp = (chosen_locale.equals(RUSSIAN)) ? "ru" : "en";
         ContestList adapter = new ContestList(this, contests, tmp);
         contestsView.setAdapter(adapter);
+        contestsView.getLayoutManager().onRestoreInstanceState(savedState);
         contestsView.setVisibility(RecyclerView.VISIBLE);
     }
 
